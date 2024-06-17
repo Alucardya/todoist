@@ -1,7 +1,13 @@
-import { authMiddleware } from "@clerk/nextjs/server";
+// File path: middleware.ts
 
-export default authMiddleware({});
+import { clerkMiddleware } from '@clerk/nextjs/server'; // Ensure this is the correct import
+
+console.log("Initializing Clerk Middleware with public routes:", ["/"]);
+
+export default clerkMiddleware({
+  publicRoutes: ["/"],
+});
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'], // Exclude Next.js internal routes
 };
