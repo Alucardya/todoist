@@ -1,0 +1,7 @@
+import * as moment from 'moment';
+
+const FormatDate = (date: string): string => {
+  return moment(date).format("DD/MM/YYYY");
+};
+
+export default FormatDate;
