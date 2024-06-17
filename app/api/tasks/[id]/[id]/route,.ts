@@ -1,5 +1,5 @@
 import prisma from "@/app/utils/connect";
-import { auth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function DELETE(

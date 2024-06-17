@@ -1,12 +1,10 @@
-"use client";
-import React from "react";
-import { useGlobalState } from "../context/globalProvider";
-import Tasks from "../Components/Tasks/Tasks";
+"use client"
+import React from 'react'
 
-function Page() {
-  const { completedTasks } = useGlobalState ();
-
-  return <Tasks title="Completed Tasks" tasks={completedTasks} />;
+function page() {
+  return (
+    <div>completed</div>
+  )
 }
 
-export default Page;
+export default page;
