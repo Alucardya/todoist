@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import styled from "styled-components";
-import Button from "../Button/Button";
+import Button from "../Button/button";
 import { add, plus } from "@/app/utils/Icons";
 
 function CreateContent() {

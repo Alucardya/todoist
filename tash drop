@@ -1,0 +1,24 @@
+ .env                                            |   2 [32m+[m[31m-[m
+ app/Components/Modals/Modal.tsx                 |  64 [31m------[m
+ app/Components/Sidebar/Sidebar/Sidebar.tsx      | 211 [32m++++++[m[31m-------------[m
+ app/Components/TaskItem/TaskItem.tsx            | 122 [31m-----------[m
+ app/Components/Tasks/Tasks.tsx                  | 137 [32m++[m[31m-----------[m
+ app/Providers/AuthProvider.tsx                  |   1 [32m+[m
+ app/Providers/ContextProvider.tsx               |  42 [32m++[m[31m--[m
+ app/Providers/GlobalStyleProvider.tsx           |  38 [32m++[m[31m--[m
+ app/api/{tasks => }/route.ts                    |   2 [32m+[m[31m-[m
+ app/api/tasks/[id]/{route.ts => [id]/route,.ts} |   2 [32m+[m[31m-[m
+ app/completed/page.tsx                          |  16 [32m+[m[31m-[m
+ app/context/globalProvider.js                   | 124 [32m++[m[31m---------[m
+ app/context/themes.js                           | 260 [32m++++++++++++[m[31m------------[m
+ app/important/page.tsx                          |  15 [32m+[m[31m-[m
+ app/incomplete/page.tsx                         |  14 [32m+[m[31m-[m
+ app/layout.tsx                                  |  19 [32m+[m[31m-[m
+ app/page.tsx                                    |  12 [32m+[m[31m-[m
+ app/utils/formatDate.js                         |   7 [31m-[m
+ middleware.ts                                   |  12 [32m+[m[31m-[m
+ next.config.js                                  |  10 [31m-[m
+ next.config.mjs                                 |   4 [32m+[m
+ package-lock.json                               | 120 [32m+++++++++++[m
+ package.json                                    |  24 [32m++[m[31m-[m
+ 23 files changed, 441 insertions(+), 817 deletions(-)
