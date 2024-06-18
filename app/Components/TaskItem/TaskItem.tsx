@@ -3,7 +3,7 @@ import { useGlobalState } from "@/app/context/globalProvider";
 import { edit, trash } from "@/app/utils/Icons";
 import React from "react";
 import styled from "styled-components";
-import * as moment from 'moment';
+import formatDate from "@/app/utils/formatDate";
 
 interface Props {
   title: string;
@@ -15,11 +15,6 @@ interface Props {
 
 function TaskItem({ title, description, date, isCompleted, id }: Props) {
   const { theme, deleteTask, updateTask } = useGlobalState();
-
-  const formatDate = (date: string): string => {
-    return moment(date).format("DD/MM/YYYY");
-  };
-
   return (
     <TaskItemStyled theme={theme}>
       <h1>{title}</h1>

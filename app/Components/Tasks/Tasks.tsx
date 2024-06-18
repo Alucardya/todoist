@@ -5,7 +5,8 @@ import styled from "styled-components";
 import CreateContent from "../Modals/CreateContent";
 import TaskItem from "../TaskItem/TaskItem";
 import { add, plus } from "@/app/utils/Icons";
-import Modal from "../Modals/Modal";
+import Modal from "../Modals/modal";
+
 interface Props {
   title: string;
   tasks: any[];
