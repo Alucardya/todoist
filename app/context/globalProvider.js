@@ -15,7 +15,6 @@ export const GlobalProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [modal, setModal] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-
   const [tasks, setTasks] = useState([]);
 
   const theme = themes[selectedTheme];
@@ -51,11 +50,21 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
+  const addTask = async (task) => {
+    try {
+      const res = await axios.post("/api/tasks", task);
+      toast.success("Task added successfully");
+      allTasks();
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to add task");
+    }
+  };
+
   const deleteTask = async (id) => {
     try {
       const res = await axios.delete(`/api/tasks/${id}`);
       toast.success("Task deleted");
-
       allTasks();
     } catch (error) {
       console.log(error);
@@ -66,9 +75,7 @@ export const GlobalProvider = ({ children }) => {
   const updateTask = async (task) => {
     try {
       const res = await axios.put(`/api/tasks`, task);
-
       toast.success("Task updated");
-
       allTasks();
     } catch (error) {
       console.log(error);
@@ -90,6 +97,7 @@ export const GlobalProvider = ({ children }) => {
         theme,
         tasks,
         deleteTask,
+        addTask, // Add the addTask function here
         isLoading,
         completedTasks,
         importantTasks,

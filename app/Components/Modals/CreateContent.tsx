@@ -1,47 +1,29 @@
 "use client";
 import { useGlobalState } from "@/app/context/globalProvider";
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import styled from "styled-components";
 import Button from "../Button/button";
-import { add, plus } from "@/app/utils/Icons";
+import { add } from "@/app/utils/Icons";
 
-function CreateContent() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
-  const [completed, setCompleted] = useState(false);
-  const [important, setImportant] = useState(false);
+interface Props {
+  task?: { title: string; description: string; date: string; completed: boolean; important: boolean };
+  onSubmit: (task: any) => void; // Ensure this is defined
+}
 
-  const { theme, allTasks, closeModal } = useGlobalState();
+function CreateContent({ task, onSubmit }: Props) {
+  const [title, setTitle] = useState(task?.title || "");
+  const [description, setDescription] = useState(task?.description || "");
+  const [date, setDate] = useState(task?.date || "");
+  const [completed, setCompleted] = useState(task?.completed || false);
+  const [important, setImportant] = useState(task?.important || false);
 
-  const handleChange = (name: string) => (e: any) => {
-    switch (name) {
-      case "title":
-        setTitle(e.target.value);
-        break;
-      case "description":
-        setDescription(e.target.value);
-        break;
-      case "date":
-        setDate(e.target.value);
-        break;
-      case "completed":
-        setCompleted(e.target.checked);
-        break;
-      case "important":
-        setImportant(e.target.checked);
-        break;
-      default:
-        break;
-    }
-  };
+  const { theme, closeModal } = useGlobalState();
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    const task = {
+    const taskData = {
       title,
       description,
       date,
@@ -49,27 +31,13 @@ function CreateContent() {
       important,
     };
 
-    try {
-      const res = await axios.post("/api/tasks", task);
-
-      if (res.data.error) {
-        toast.error(res.data.error);
-      }
-
-      if (!res.data.error) {
-        toast.success("Task created successfully.");
-        allTasks();
-        closeModal();
-      }
-    } catch (error) {
-      toast.error("Something went wrong.");
-      console.log(error);
-    }
+    onSubmit(taskData);
+    closeModal();
   };
 
   return (
     <CreateContentStyled onSubmit={handleSubmit} theme={theme}>
-      <h1>Create a Task</h1>
+      <h1>{task ? "Edit Task" : "Create a Task"}</h1>
       <div className="input-control">
         <label htmlFor="title">Title</label>
         <input
@@ -77,26 +45,26 @@ function CreateContent() {
           id="title"
           value={title}
           name="title"
-          onChange={handleChange("title")}
-          placeholder="e.g, Watch a video from Fireship."
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="e.g., Watch a video from Fireship."
         />
       </div>
       <div className="input-control">
         <label htmlFor="description">Description</label>
         <textarea
           value={description}
-          onChange={handleChange("description")}
+          onChange={(e) => setDescription(e.target.value)}
           name="description"
           id="description"
           rows={4}
-          placeholder="e.g, Watch a video about Next.js Auth"
+          placeholder="e.g., Watch a video about Next.js Auth"
         ></textarea>
       </div>
       <div className="input-control">
         <label htmlFor="date">Date</label>
         <input
           value={date}
-          onChange={handleChange("date")}
+          onChange={(e) => setDate(e.target.value)}
           type="date"
           name="date"
           id="date"
@@ -105,8 +73,8 @@ function CreateContent() {
       <div className="input-control toggler">
         <label htmlFor="completed">Toggle Completed</label>
         <input
-          value={completed.toString()}
-          onChange={handleChange("completed")}
+          checked={completed}
+          onChange={(e) => setCompleted(e.target.checked)}
           type="checkbox"
           name="completed"
           id="completed"
@@ -115,18 +83,17 @@ function CreateContent() {
       <div className="input-control toggler">
         <label htmlFor="important">Toggle Important</label>
         <input
-          value={important.toString()}
-          onChange={handleChange("important")}
+          checked={important}
+          onChange={(e) => setImportant(e.target.checked)}
           type="checkbox"
           name="important"
           id="important"
         />
       </div>
-
       <div className="submit-btn flex justify-end">
         <Button
           type="submit"
-          name="Create Task"
+          name={task ? "Update Task" : "Create Task"}
           icon={add}
           padding={"0.8rem 2rem"}
           borderRad={"0.8rem"}
@@ -170,7 +137,6 @@ const CreateContentStyled = styled.form`
     textarea {
       width: 100%;
       padding: 1rem;
-
       resize: none;
       background-color: ${(props) => props.theme.colorGreyDark};
       color: ${(props) => props.theme.colorGrey2};

@@ -1,9 +1,19 @@
 "use client";
 import { useGlobalState } from "@/app/context/globalProvider";
 import { edit, trash } from "@/app/utils/Icons";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import formatDate from "@/app/utils/formatDate";
+import Modal from "../Modals/modal";
+import CreateContent from "../Modals/CreateContent";
+
+interface Task {
+  title: string;
+  description: string;
+  date: string;
+  isCompleted: boolean;
+  important: boolean;
+}
 
 interface Props {
   title: string;
@@ -15,6 +25,17 @@ interface Props {
 
 function TaskItem({ title, description, date, isCompleted, id }: Props) {
   const { theme, deleteTask, updateTask } = useGlobalState();
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleEditSubmit = (task: Task) => {
+    updateTask({ ...task, id });
+    setIsEditing(false);
+  };
+
   return (
     <TaskItemStyled theme={theme}>
       <h1>{title}</h1>
@@ -24,42 +45,30 @@ function TaskItem({ title, description, date, isCompleted, id }: Props) {
         {isCompleted ? (
           <button
             className="completed"
-            onClick={() => {
-              const task = {
-                id,
-                isCompleted: !isCompleted,
-              };
-
-              updateTask(task);
-            }}
+            onClick={() => updateTask({ id, isCompleted: !isCompleted })}
           >
             Completed
           </button>
         ) : (
           <button
             className="incomplete"
-            onClick={() => {
-              const task = {
-                id,
-                isCompleted: !isCompleted,
-              };
-
-              updateTask(task);
-            }}
+            onClick={() => updateTask({ id, isCompleted: !isCompleted })}
           >
             Incomplete
           </button>
         )}
-        <button className="edit">{edit}</button>
-        <button
-          className="delete"
-          onClick={() => {
-            deleteTask(id);
-          }}
-        >
-          {trash}
-        </button>
+        <button className="edit" onClick={handleEditClick}>{edit}</button>
+        <button className="delete" onClick={() => deleteTask(id)}>{trash}</button>
       </div>
+
+      {isEditing && (
+        <Modal content={
+          <CreateContent
+            task={{ title, description, date, completed: isCompleted, important: false }}
+            onSubmit={handleEditSubmit}
+          />
+        } />
+      )}
     </TaskItemStyled>
   );
 }

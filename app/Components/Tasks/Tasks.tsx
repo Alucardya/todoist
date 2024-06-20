@@ -6,17 +6,22 @@ import CreateContent from "../Modals/CreateContent";
 import TaskItem from "../TaskItem/TaskItem";
 import { add, plus } from "@/app/utils/Icons";
 import Modal from "../Modals/modal";
+
 interface Props {
   title: string;
   tasks: any[];
 }
 
 function Tasks({ title, tasks }: Props) {
-  const { theme, isLoading, openModal, modal } = useGlobalState();
+  const { theme, isLoading, openModal, modal, addTask } = useGlobalState();
+
+  const handleCreateSubmit = async (task: any) => {
+    await addTask(task);
+  };
 
   return (
     <TaskStyled theme={theme}>
-      {modal && <Modal content={<CreateContent />} />}
+      {modal && <Modal content={<CreateContent onSubmit={handleCreateSubmit} />} />}
       <h1>{title}</h1>
 
       <button className="btn-rounded" onClick={openModal}>
