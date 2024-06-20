@@ -2,7 +2,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
 # Define your bot token
-TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
+TOKEN = '6779858745:AAGBz3-5uSerXDXHYPVp1IgySy2yYJh3ueg'
 
 # Start command handler
 def start(update: Update, context: CallbackContext) -> None:
@@ -19,6 +19,7 @@ def main() -> None:
     updater = Updater(TOKEN)
 
     # Get the dispatcher to register handlers
+    dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("start", start))
 
     # Start the Bot
